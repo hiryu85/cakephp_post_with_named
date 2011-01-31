@@ -46,14 +46,14 @@ class PostWithNamedComponent extends Object {
     
     
     
-	//called before Controller::beforeFilter()
-	function initialize(&$controller, $settings = array()) {
-		$this->controller =& $controller;
+    //called before Controller::beforeFilter()
+    function initialize(&$controller, $settings = array()) {
+        $this->controller =& $controller;
         $this->__settings = array_merge($this->__settings, $settings);
-	}
+    }
 
-	//called after Controller::beforeFilter()
-	function startup(&$controller) {        
+    //called after Controller::beforeFilter()
+    function startup(&$controller) {        
         if (empty($this->controller->params['named']) && $this->controller->referer() == '/') { 
              $this->controller->Session->delete('PostWithNamed.inputs');
              return;
@@ -96,12 +96,13 @@ class PostWithNamedComponent extends Object {
         
         // Init session (clear last inputs)
         $this->controller->Session->write('PostWithNamed.inputs', false);
+        if (empty($this->controller->data)) return;
         
         foreach($this->controller->data as $model => &$fields) {
             // Like $this->data[$model] = value, maybe is a input that
             // not rappresent a model (<input name="[data][something]" value="foo" />) 
             if (!is_array($fields)) {
-                debug($fields);
+                //debug($fields);
                 $tmp = $this->__settings['satanize'] ? Sanitize::paranoid($fields) : $fields;
                 $tmp = $this->__settings['encode'] ? urlencode($tmp) : $tmp;
                 $inputs[$model]  = $tmp;
@@ -115,7 +116,6 @@ class PostWithNamedComponent extends Object {
                 $vars[$model.'.'.$key] = $tmp;
             }
         }
-        debug($vars);
         // Save unknowed inputs to a session
         $this->controller->Session->write('PostWithNamed.inputs', $inputs);
 
@@ -126,13 +126,13 @@ class PostWithNamedComponent extends Object {
         
         // Redirect to current url but with named vars and 302 http status
         $this->controller->redirect($redirect, 302, true);
-	}
+    }
     
 
     
-	//called before Controller::redirect()
-	function beforeRedirect(&$controller, $url, $status=null, $exit=true) {
-	}
+    //called before Controller::redirect()
+    function beforeRedirect(&$controller, $url, $status=null, $exit=true) {
+    }
 
 
 
