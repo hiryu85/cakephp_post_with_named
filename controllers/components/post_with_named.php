@@ -103,7 +103,7 @@ class PostWithNamedComponent extends Object {
             // not rappresent a model (<input name="[data][something]" value="foo" />) 
             if (!is_array($fields)) {
                 //debug($fields);
-                $tmp = $this->__settings['satanize'] ? Sanitize::paranoid($fields) : $fields;
+                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($fields) : $fields;
                 $tmp = $this->__settings['encode'] ? urlencode($tmp) : $tmp;
                 $inputs[$model]  = $tmp;
                 $vars[$model] = $tmp;
@@ -111,7 +111,7 @@ class PostWithNamedComponent extends Object {
             }
             // Key could be a model (in form [data][model][field] = value)
             foreach($fields as $key => &$value) { 
-                $tmp = $this->__settings['satanize'] ? Sanitize::paranoid($value) : $value;
+                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($value) : $value;
                 $tmp = $this->__settings['encode'] ? urlencode($tmp) : $tmp;
                 $vars[$model.'.'.$key] = $tmp;
             }
