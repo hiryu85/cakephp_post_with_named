@@ -40,7 +40,7 @@ class PostWithNamedComponent extends Object {
     var $__settings = array(
         'process' => array(),
         'sanitize' => true,
-        'encode' => true,
+        //'encode' => true,
     );
     var $__isActive = FALSE;
     
@@ -103,17 +103,15 @@ class PostWithNamedComponent extends Object {
             // not rappresent a model (<input name="[data][something]" value="foo" />) 
             if (!is_array($fields)) {
                 //debug($fields);
-                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($fields) : $fields;
-                $tmp = $this->__settings['encode'] ? urlencode($tmp) : $tmp;
-                $inputs[$model]  = $tmp;
+                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($fields, array(' ', '+')) : $fields;
+                $inputs[$model]  = urlencode($tmp);
                 $vars[$model] = $tmp;
                 continue;
             }
             // Key could be a model (in form [data][model][field] = value)
             foreach($fields as $key => &$value) { 
-                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($value) : $value;
-                $tmp = $this->__settings['encode'] ? urlencode($tmp) : $tmp;
-                $vars[$model.'.'.$key] = $tmp;
+                $tmp = $this->__settings['sanitize'] ? Sanitize::paranoid($value, array(' ', '+')) : $value;
+                $vars[$model.'.'.$key] = urlencode($tmp);
             }
         }
         // Save unknowed inputs to a session
