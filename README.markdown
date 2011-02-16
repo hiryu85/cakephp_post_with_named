@@ -15,4 +15,16 @@ A CakePHP plugin for posting a form inputs in URL (example http://domain/cakephp
                '/search/index',
                 array('controller' => 'your-controller-name-here', 'action' => 'your-action-name-here'),
                 ),
-   )
+         )
+
+
+## Configuration
+Components options is:
+
+*  "process" => array(url1 [, url2..] )    
+      Url can be in format "/controllers/action" or array('controller' => 'foo', 'action' => 'bar')
+*   "sanitize" => boolean [default=true] 
+      cakephplib Sanitize::pranoid()
+*   "encode"   => boolean [default=true]
+     Encode post value with urlencode
+
